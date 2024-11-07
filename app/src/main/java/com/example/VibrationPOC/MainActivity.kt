@@ -26,72 +26,66 @@ import androidx.compose.ui.unit.dp
 import com.example.VibrationPOC.ui.theme.VibrationPOCTheme
 
 class MainActivity : ComponentActivity() {
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContent {
-      VibrationPOCTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-          VibrationExamplesScreen()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContent {
+            VibrationPOCTheme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    VibrationExamplesScreen()
+                }
+            }
         }
-      }
     }
-  }
 }
 
 @Preview
 @Composable
 fun VibrationExamplesScreen() {
-  Column {
-    VibrationCookbook()
-  }
+    Column {
+        VibrationCookbook()
+    }
 }
 
 @Preview
 @Composable
 fun VibrationCookbook() {
-  Column(modifier = Modifier.fillMaxSize(),
-         verticalArrangement = Arrangement.Center) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
+    ) {
 
-    //Vibrate using LocalHapticFeedback
-    val haptic = LocalHapticFeedback.current
+        //Vibrate using LocalHapticFeedback
+        val haptic = LocalHapticFeedback.current
 
-    Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-      haptic.performHapticFeedback(HapticFeedbackType.LongPress)
-    }) {
-      Text("Long Press Vibration")
+        Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+        }) {
+            Text("Long Press Vibration")
+        }
+        Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
+
+        Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        }) {
+            Text("Text Handle Move Vibration")
+        }
+        Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
+
+        // Vibrate using Framework VibratorManager
+        // Requires VIBRATE permission
+        val context = LocalContext.current
+        val vibrator =  // Requires Context to be passed
+            context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+
+        val vibrationEffect = VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK)
+        val combinedVibration = CombinedVibration.createParallel(vibrationEffect)
+
+        Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
+            vibrator.vibrate(combinedVibration)
+
+        }) {
+            Text("System Service Vibration")
+        }
+
     }
-    Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
-
-    Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-      haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-    }) {
-      Text("Text Handle Move Vibration")
-    }
-    Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
-
-    // Vibrate using Framework VibratorManager
-    val context = LocalContext.current
-    val vibrator =  // Requires Context to be passed
-      context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-
-    // Create a simple vibration pattern
-    val vibrationPattern = longArrayOf(0, 2000, 500, 3000) // 0ms pause, 2000ms vibrate, 500ms pause, 3000ms vibrate
-    val vibrationEffect = VibrationEffect.createWaveform(vibrationPattern, 1)
-    val combinedVibration = CombinedVibration.createParallel(vibrationEffect)
-
-    Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-      vibrator.vibrate(combinedVibration)
-
-    }) {
-      Text("Start System Service Vibration")
-    }
-
-    Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
-
-    Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-      vibrator.cancel()
-    }) {
-      Text("Stop System Service Vibration")
-    }
-  }
 }
