@@ -64,15 +64,7 @@ fun VibrationCookbook() {
         }
         Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
 
-        Button(modifier = Modifier.align(Alignment.CenterHorizontally), onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        }) {
-            Text("Text Handle Move Vibration")
-        }
-        Spacer(modifier = Modifier.height(16.dp)) // Adjust the spacing as needed
-
         // Vibrate using Framework VibratorManager
-        // Requires VIBRATE permission
         val context = LocalContext.current
         val vibrator =  // Requires Context to be passed
             context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
