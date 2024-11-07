@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a guide on implementing device vibration upon tapping a button using **Jetpack Compose*** and the  **Android Framework's ```VibratorManager```**. The code snippet demonstrates two approaches for vibration feedback: Jetpack Compose’s ```HapticFeedback``` and the Android Framework’s ```VibratorManager```.
+This document provides a guide on implementing device vibration upon tapping a button using **Jetpack Compose** and the  **Android Framework's ```VibratorManager```**. The code snippet demonstrates two approaches for vibration feedback: Jetpack Compose’s ```HapticFeedback``` and the Android Framework’s ```VibratorManager```.
 
 ## Requirements
 - **Minimum SDK**: API Level 31
